@@ -1,9 +1,12 @@
 
-myApp.service('ourSvc', function($http,$firebaseObject,$firebaseArray) {
+myApp.service('ourSvc', function($http,$firebaseObject,$firebaseArray,$firebaseAuth) {
 
-    var ref = firebase.database().ref().child("artists");
-    this.artists = $firebaseArray(ref);
+// Explain firebaseArray
+// Explain firebaseObject if we want to work with key value pairs
 
+
+    var artistsRef = firebase.database().ref().child("artists");
+    this.artists = $firebaseObject(artistsRef);
 
 
     this.addArtist = function(obj) {
@@ -16,61 +19,45 @@ myApp.service('ourSvc', function($http,$firebaseObject,$firebaseArray) {
     };
 
 
+    var auth = $firebaseAuth();
+    this.createUser = function(email,password) {
+        $firebaseAuth().$createUserWithEmailAndPassword(email, password)
+            .then(function(data) {
+            console.log(data);
+        }).catch(function(error) {
 
+            var errorCode = error.code;
+            var errorMessage = error.message;
 
-
-
-
-
-
-    this.getAll = function() {
-        return $http.get('http://localhost:3000/artists')
-            .then(function(response){
-                if(response.status === 200){
-                    return response.data;
-
-                }
-            })
+        })
     };
 
 
-    this.getArtist = function(id){
-        return $http.get('http://localhost:3000/artists/' + id)
-            .then(function(response){
 
-                console.log(response.data);
 
-                return response.data
-            })
+
+
+
+    this.signInUser = function(email,password) {
+        auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
     };
 
-    //this.addArtist = function(obj){
-    //    return $http.post('http://localhost:3000/artists')
-    //        .then(function(response){
-    //            console.log(response);
-    //
-    //        })
-    //
-    //}
 
-
-
-
-
-
-
-
-
-    this.addNewArtist = function (artistObj) {
-        console.log(artistObj);
-        if(artistObj.score >= 50 ) {
-            this.reallyLike.push(artistObj);
-
-        } else if (artistObj.score < 50 ) {
-            this.kindOfLike.push(artistObj);
-
-        }
+    this.signOutUser = function(){
+        auth.signOut().then(function() {
+            // Sign-out successful.
+        }, function(error) {
+            // An error happened.
+        });
 
     };
+
+
+
 
 });

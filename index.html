@@ -4,7 +4,7 @@
 <head>
 
   <!--title-->
-  <title>Angular Service</title>
+  <title>Angular & Firebase</title>
 
   <!--Meta-->
   <meta charset="utf-8">
@@ -12,12 +12,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!--Styles-->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
   <link rel="stylesheet" type="text/css" href="styles/style.css">
 
 </head>
 
 <body>
-<main class="main-wrapper" ng-controller="FirstCtrl">
+<main class="main-wrapper container" ng-controller="FirstCtrl" >
+
+  <form class="form">
+
+    <input type="text" placeholder="email" ng-model="email">
+    <input type="text" placeholder="password" ng-model="password">
+    <button type="submit" ng-click="signUp()"> Create Account </button>
+  </form>
+
 
 
   <form class="form">
@@ -31,96 +42,25 @@
   </form>
 
 
-  <div ng-repeat="artist in artists">
-  {{artist.name}}
-  {{artist.genre}}
-  {{artist.rating}}
+  <div ng-repeat="artist in artists" c;ass="container">
 
 
   </div>
+  <div class="col-sm-4" ng-repeat="artist in artists">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">  {{artist.name}}</h3>
+      </div>
+      <div class="panel-body">
+       <h4> Genre: {{artist.genre}}</h4>
+        <h4>Rating: {{artist.rating}}</h4>
+      </div>
+      <button class="btn btn-primary delete-button" ng-click="artist.$remove(message)"> remove artist</button>
+
+    </div>
+  </div>
 
 
-
-
-
-
-
-
-
-
-
-  <!--<form>-->
-    <!--<input type="text" placeholder="name" ng-model="name">-->
-    <!--<input type="text" placeholder="genre" ng-model="genre">-->
-    <!--<input type="text" placeholder="rating" ng-model="rating">-->
-
-    <!--<button type="submit" ng-click="addArtist()">Add Artist</button>-->
-
-  <!--</form>-->
-
-  <!--<button ng-click="getAllArtist()">Get ALl</button>-->
-
-
-
-  <!--<input type="text" ng-model="id"  placeholder="id">-->
-  <!--<button ng-click="getArtist()">Get Artist</button>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!--<section class="list-main-container">-->
-    <!--<div class="list-container">-->
-      <!--<h2 ng-show='reallyLike.length != 0' class="list-header">really Like</h2>-->
-      <!--<div class='item' ng-repeat="artist in reallyLike">-->
-        <!--<h4>Name: {{artist.name}}</h4>-->
-        <!--<h4> Genre: {{artist.genre}} </h4>-->
-        <!--<h4> Score: {{artist.score}} </h4>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="list-container">-->
-      <!--<h2 ng-show='kindOfLike.length != 0' class="list-header">kind of Like</h2>-->
-      <!--<div class='item' ng-repeat="artist in kindOfLike">-->
-        <!--<h4>Name: {{artist.name}}</h4>-->
-        <!--<h4> Genre: {{artist.genre}} </h4>-->
-        <!--<h4> Score: {{artist.score}} </h4>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</section>-->
-
-
-
-
-
-
-  <!--<ul>-->
-  <!--<li ng-repeat="message in messages">-->
-  <!--&lt;!&ndash; edit a message &ndash;&gt;-->
-  <!--<input ng-model="message.text" ng-change="messages.$save(message)" />-->
-  <!--&lt;!&ndash; delete a message &ndash;&gt;-->
-  <!--<button ng-click="messages.$remove(message)">Delete Message</button>-->
-  <!--</li>-->
-  <!--</ul>-->
-  <!--&lt;!&ndash; push a new message onto the array &ndash;&gt;-->
-  <!--<form ng-submit="addMessage()">-->
-  <!--<input ng-model="newMessageText" />-->
-  <!--<button type="submit">Add Message</button>-->
-  <!--</form>-->
 </main>
 
 <!-- AngularJS -->
@@ -132,9 +72,10 @@
 <!-- AngularFire -->
 <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+<!--This will initialize the firebsase SDK-->
+
 <script>
-  // Initialize Firebase
+
   var config = {
     apiKey: "AIzaSyC2wEZiZaT5w59qyF7HJG1iPLe6VsF13Ng",
     authDomain: "locallabs-2727d.firebaseapp.com",
@@ -143,6 +84,8 @@
   };
   firebase.initializeApp(config);
 </script>
+
+<!--Before we can use AngularFire with dependency injection, we need to register firebase as a module in our application.-->
 <script src="app.js"></script>
 <script src="FirstController.js"></script>
 <script src="service.js"></script>

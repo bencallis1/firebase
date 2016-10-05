@@ -2,13 +2,15 @@
 
 myApp.controller('FirstCtrl', function ($scope, ourSvc) {
     $scope.artists = ourSvc.artists;
+    console.log($scope.artists);
 
     $scope.addArtist = function(){
         ourSvc.addArtist(buildArtist());
     };
 
-
-
+    $scope.signUp = function() {
+        ourSvc.createUser($scope.email, $scope.password)  ;
+    };
 
 
 
